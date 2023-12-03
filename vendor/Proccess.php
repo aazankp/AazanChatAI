@@ -4,7 +4,7 @@ require_once "Database.php";
 
 $Database = new Database();
 
-$AIKey = "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";
+$AIKey = "";
 
 if (isset($_REQUEST["Question"])) {
     $question = $_REQUEST["Question"];
@@ -26,20 +26,49 @@ if (isset($_REQUEST["Question"])) {
 
     $Response = json_decode(CURL ("POST", $Curl, $Param, $Header), true);
 
-    $response = $Response['choices'][0]['message']['content'];
+    // $response = $Response['choices'][0]['message']['content'];
 
-    $arr = explode("```", $response);
+    // $arr = explode("```", $response);
 
-    $answer = implode(",", $arr);
+    // $answer = json_encode($arr);
 
     // $Database->insertChatRoom($question, $answer);
 
     $fetchChats = $Database->fetchChatRoom();
+
     while ($row = mysqli_fetch_assoc($fetchChats)) {
-        // print_r($row);
-        // echo '<p style="overflow-wrap: break-word;" id="questiontext">'.$row["question"].'</p>';
-        $test = explode(",", $row["answer"]);
-        print_r($test);
+        $test = json_decode($row["answer"],true);
+        foreach ($test as $key => $value) {
+                $ques = '<div id="profile">
+                    <div class="row g-0">
+                        <div class="col-md-1">
+                            <img src="" class="img-fluid" style="width: 40px; border-radius: 50%; height: 28px;">
+                        </div>
+                        <div class="col-md-11">
+                            <span class="card-title h6" style="line-height: 1.1;">You</span> <br>
+                            <p style="overflow-wrap: break-word;" class="mt-1">'.$row["question"].'</p>
+                        </div>
+                    </div>
+                </div>';
+            if ($key == 0) {
+                echo $ques;
+                echo '<div class="row g-0 mt-4">
+                        <div class="col-md-1">
+                            <img src="assets/images/logo.png" class="img-fluid" style="width: 40px; border-radius: 50%; height: 28px;">
+                        </div>
+                        <div class="col-md-11">
+                            <span class="card-title h6" style="line-height: 1.1;">ChatAI</span> <br>
+                            <p style="overflow-wrap: break-word;" class="mt-3 mb-4">'.$value.'</p>
+                        </div>
+                    </div>';
+            }
+            if ($key == 1) {
+                echo '<pre style="background: black; color: white; padding: 15px; border-radius: 10px;">'.$value.'</pre>';
+            }
+            if ($key == 2) {
+                echo '<p style="overflow-wrap: break-word;">'.$value.'</p>';
+            }
+        }
     }
 
     // echo "Record Added";

@@ -35,7 +35,7 @@ $(document).ready(function()
             success:function(data)
             {
 
-                // $("#mainContent").append(data);
+                $("#mainContent").append(data);
                 
                 // var textarea = $('.card-body');
 

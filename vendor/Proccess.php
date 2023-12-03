@@ -46,7 +46,7 @@ if (isset($_REQUEST["Question"])) {
                         </div>
                         <div class="col-md-11">
                             <span class="card-title h6" style="line-height: 1.1;">You</span> <br>
-                            <p style="overflow-wrap: break-word;" class="mt-1">'.$row["question"].'</p>
+                            <p style="overflow-wrap: break-word;" class="mt-2">'.$row["question"].'</p>
                         </div>
                     </div>
                 </div>';
@@ -56,11 +56,9 @@ if (isset($_REQUEST["Question"])) {
                         <div class="col-md-1">
                             <img src="assets/images/logo.png" class="img-fluid" style="width: 40px; border-radius: 50%; height: 28px;">
                         </div>
-                        <div class="col-md-11">
+                        <div class="col-md-11 mb-4">
                             <span class="card-title h6" style="line-height: 1.1;">ChatAI</span> <br>
-                            <p style="overflow-wrap: break-word;" class="mt-3 mb-4">'.$value.'</p>
-                        </div>
-                    </div>';
+                            <p style="overflow-wrap: break-word;" class="mt-2 mb-4">'.$value.'</p>';
             }
             if ($key == 1) {
                 echo '<pre style="background: black; color: white; padding: 15px; border-radius: 10px;">'.$value.'</pre>';
@@ -69,6 +67,8 @@ if (isset($_REQUEST["Question"])) {
                 echo '<p style="overflow-wrap: break-word;">'.$value.'</p>';
             }
         }
+        echo '</div>
+        </div>';
     }
 
     // echo "Record Added";

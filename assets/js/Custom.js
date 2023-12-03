@@ -98,6 +98,12 @@ $(document).ready(function()
         }); // ajax end
     });
 
+    // $("#Question").on('input', function() {
+    //     this.style.height = 'auto';
+    //     this.style.height = (this.scrollHeight) + 'px';
+    //     var test = this.style.height;
+    //     // alert(test);
+    // });
 
 });
 

@@ -4,6 +4,8 @@ require_once "Database.php";
 
 $Database = new Database();
 
+session_start();
+
 $AIKey = "";
 
 if (isset($_REQUEST["Question"])) {
@@ -72,6 +74,66 @@ if (isset($_REQUEST["Question"])) {
     }
 
     // echo "Record Added";
+}
+
+else if(isset($_REQUEST["action"]) && $_REQUEST["action"] == "login")
+{
+    // print_r($_REQUEST);
+    $email = $_REQUEST["email"];
+    $pass = $_REQUEST["pass"];
+    $password = md5($pass);
+    $result = $Database->fetchUser($email, $password);
+    if ($result && mysqli_num_rows($result) > 0)
+    {
+        $user_info = ["email" => $email, "password" => $password];
+        $_SESSION["user_info"] = $user_info;
+        if ($_SESSION["user_info"]) 
+        {
+            echo "1";
+            $encodedData = base64_encode(json_encode($user_info));
+        }
+        // $test = json_decode(base64_decode($encodedData), true);
+        // $_SESSION[""]
+    } else {
+        echo "error";
+    }
+}
+
+else if(isset($_REQUEST["action"]) && $_REQUEST["action"] == "signup")
+{
+    $fullName = $_REQUEST["name"];
+    $email = $_REQUEST["email"];
+    $pass = $_REQUEST["password"];
+    $cnf_pass = $_REQUEST["confirm_password"];
+
+    $Dir = "../assets/profiles";
+    $img_name = $Dir."/".rand(0000, 9999) . "_" . $_FILES["profile"]['name'];
+    $img_tmp_name = $_FILES["profile"]['tmp_name'];
+
+    if ($fullName != "" && $email != "" && $pass != "" && $cnf_pass != "" && $_FILES["profile"]['name'] != "")
+    {
+        if ($pass == $cnf_pass)
+        {
+            $password = md5($pass);
+            if (!is_dir($Dir)) mkdir($Dir);
+            move_uploaded_file($img_tmp_name, $img_name);
+            $result = $Database->insertUsers($img_name, $fullName, $email, $password);
+            if ($result == 1) {
+                echo "1";
+            } else {
+                echo "0";
+            }
+        } else{
+            echo "error";
+        }
+    } else {
+        echo "pic";
+    }
+}
+
+else if(isset($_REQUEST["action"]) && $_REQUEST["action"] == "newChat")
+{
+    print_r($_REQUEST);
 }
 
 function CURL ($Method, $Curl, $Param, $Header) {

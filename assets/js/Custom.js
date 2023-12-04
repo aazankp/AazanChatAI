@@ -1,23 +1,4 @@
 $(document).ready(function(){
-    let sidebar = document.querySelector(".sidebar");
-    let closeBtn = document.querySelector("#btn");
-    
-    closeBtn.addEventListener("click", ()=>{
-        sidebar.classList.toggle("open");
-        menuBtnChange();
-    });
-
-    function menuBtnChange() {
-        if(sidebar.classList.contains("sidebar")){
-            closeBtn.classList.replace("bx-menu-alt-right","bx-menu");
-        }else {
-            closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
-        }
-    }
-});
-
-$(document).ready(function()
-{
 
     $(document).on("submit", "#QuestionForm", function(event){
         event.preventDefault();
@@ -96,6 +77,88 @@ $(document).ready(function()
                 // console.log(div);
             }
         }); // ajax end
+    });
+
+    $(document).on("submit", "#logindata", function(event){
+        event.preventDefault();
+        var formdata = new FormData(this);
+        
+        $.ajax({
+            url: '../vendor/Proccess.php?action=login',
+            type: "POST",
+            data: formdata,
+            cache: false,
+            processData: false,
+            contentType: false,
+            success:function(data)
+            {
+                if (data == 1)
+                {
+                    window.location.href = "../index.php";
+                }
+            }
+        }); // ajax end
+    });
+
+    $(document).on("submit", "#signupdata", function(event){
+        event.preventDefault();
+        var formdata = new FormData(this);
+        
+        $.ajax({
+            url: '../vendor/Proccess.php?action=signup',
+            type: "POST",
+            data: formdata,
+            cache: false,
+            processData: false,
+            contentType: false,
+            success:function(data)
+            {
+                console.log(data);
+                if(data == "error"){
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Password Not Matched!',
+                      })
+                }
+                if(data == "pic"){
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Please Choose Picture!',
+                      })
+                }
+                if (data == 1) {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Your Data has been Submitted.',
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+                }
+                if(data == 0){
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Server Issue!',
+                      })
+                }
+            }
+        }); // ajax end
+    });
+
+    $(document).on("click", "#newChat", function(){
+        alert("ok");
+        $.ajax({
+            url: "vendor/Proccess.php?action=newChat",
+            type: "POST",
+            data: { action: "newChat" },
+            success:function(data)
+            {
+                console.log(data);
+            }
+        });
     });
 
     // $("#Question").on('input', function() {

@@ -52,6 +52,7 @@ class Library
       <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.20/sweetalert2.all.min.js"></script>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
       <script src="assets/js/Custom.js"></script>
+      <script src="assets/js/sidebar.js"></script>
     </body>
 
     </html>

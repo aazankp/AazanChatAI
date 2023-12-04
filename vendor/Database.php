@@ -39,6 +39,20 @@ class Database {
         $this->result = mysqli_query($this->conn, $this->query);
         return $this->result;
     }
+    
+    public function insertUsers($img_name, $fullName, $email, $password)
+    {
+        $this->query = "INSERT INTO users (profile, name, email, password) values ('$img_name', '$fullName', '$email', '$password')";
+        $this->result = mysqli_query($this->conn, $this->query);
+        return $this->result;
+    }
+
+    public function fetchUser($email, $password)
+    {
+        $this->query = "SELECT * FROM users WHERE email='$email' AND password='$password'";
+        $this->result = mysqli_query($this->conn, $this->query);
+        return $this->result;
+    }
 }
 
 ?>

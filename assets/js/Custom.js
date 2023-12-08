@@ -1,80 +1,48 @@
 $(document).ready(function(){
 
+    let form = document.querySelector('#QuestionForm');
+    if(form != null) {
+        form.addEventListener('submit', function(){
+            var formElement = $("form");
+            var formId = formElement.attr("id");
+            if(formId == ''){
+                alert('Please Reload Page!');
+            }
+        });
+    }
+    
     $(document).on("submit", "#QuestionForm", function(event){
         event.preventDefault();
         let Question = $('#Question').val();
+        let NewChatId = $('#newChat').val();
 
         if($.trim(Question) == ''){
-            alert('Something Went Wrong');
+            alert('Something Went Wrong Please Reload Page!');
             return false;
+        
         }
         
         $.ajax({
             url: 'vendor/Proccess.php',
             type: 'POST',
-            data: {Question:Question},
+            data: {
+                Question:Question,
+                NewChatId:NewChatId
+            },
             success:function(data)
             {
+                $("#mainContent").html(data);
+            }
+        }); // ajax end
 
-                $("#mainContent").append(data);
-                
-                // var textarea = $('.card-body');
-
-                // textarea.css({
-                //     'line-height': '1.1',
-                //     'width': '100%',
-                //     'resize': 'none',
-                //     'overflow-y': 'hidden',
-                //     'border': 'none'
-                // });
-
-                // textarea.css('height', 'auto');
-                // textarea.css('height', (textarea[0].scrollHeight) + 'px');
-
-                // test = data.split("```");
-
-                // $.each(test, function(index, value) {
-
-                //     console.log(value);
-                //     if (index == 0) {
-                //         html = '<p class="myText">'+value+'</p>';
-                //         $("#mainContent").append(html);
-                //     }
-
-                //     if (index == 1) {
-                //         html = '<pre class="myText" style="background: black; color: white; padding: 15px; border-radius: 10px;">'+value+'</pre>';
-                //         $("#mainContent").append(html);
-                //     }
-
-                //     if (index == 2) {
-                //         html = '<p class="myText">'+value+'</p>';
-                //         $("#mainContent").append(html);
-                //     }
-
-                // });
-
-                console.log(data);
-
-
-                // jsonObject = JSON.parse(data);
-
-                // jsonText1 = jsonObject.text1.replace(/\\n/g, '');
-                // jsonCode = jsonObject.code.replace(/\\n/g, '');
-                // jsonText2 = jsonObject.text2.replace(/\\n/g, '');
-
-                // $("#text1").text(jsonText1);
-                // $("#code").html(jsonCode);
-                // $("#text2").text(jsonText2);
-
-                // console.log(jsonObject);
-                // Arr = jsonData.array;
-                // console.log(Arr);
-
-                // div = $(".myText:gt(-5)");
-                // div.each(function() {
-                //     console.log($(this).text());
-                // });
-                // console.log(div);
+        $.ajax({
+            url: 'vendor/Proccess.php?action=liHistory',
+            type: "POST",
+            success:function(data)
+            {
+                arr = JSON.parse(data);
+                $("#liHistory").html(arr.liCode);
+                $("#newChat").val(arr.newChatId);
             }
         }); // ajax end
     });
@@ -92,9 +60,17 @@ $(document).ready(function(){
             contentType: false,
             success:function(data)
             {
+                console.log(data);
                 if (data == 1)
                 {
                     window.location.href = "../index.php";
+                }
+                if(data == "error"){
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Password or Email is Incorrect!',
+                      })
                 }
             }
         }); // ajax end
@@ -149,14 +125,17 @@ $(document).ready(function(){
     });
 
     $(document).on("click", "#newChat", function(){
-        alert("ok");
+        let NewChatId = $('#newChat').val();
         $.ajax({
             url: "vendor/Proccess.php?action=newChat",
             type: "POST",
-            data: { action: "newChat" },
+            data: { 
+                action:"newChat",
+                NewChatId:NewChatId
+            },
             success:function(data)
             {
-                console.log(data);
+                $("#mainContent").html(data);
             }
         });
     });
@@ -168,7 +147,22 @@ $(document).ready(function(){
     //     // alert(test);
     // });
 
+    $(document).on("click", ".ChatID", function(){
+        chatId = $(this).val();
+        $.ajax({
+            url: 'vendor/Proccess.php?action=chatFetch',
+            type: "POST",
+            data: { chatId:chatId },
+            success:function(data)
+            {
+                $("#mainContent").html(data);
+            }
+        }); // ajax end
+    });
+
+
 });
+
 
 //     $('#submit').on('submit', function(event)
 //     {

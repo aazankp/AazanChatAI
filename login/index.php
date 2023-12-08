@@ -4,7 +4,7 @@
 	<title>LOGIN</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+	<link rel="icon" type="image/png" href="../assets/images/logo.png"/>
 	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.20/sweetalert2.min.css" rel="stylesheet">
@@ -43,17 +43,6 @@
 						<span class="focus-input100" data-placeholder="Password"></span>
 					</div>
 
-					<div>
-						<div class="row" style="margin-top: -19px; margin-bottom: 20px;">
-							<div clas="col-md-2">
-								<input class="form-control" style="margin-top: 5px; margin-left:10px;" type="checkbox" name="remember">
-							</div>
-							<div class="col-md-6">
-								<p>Remember me</p>
-							</div>
-						</div>
-					</div>
-
 					<div class="container-login100-form-btn">
 						<div class="wrap-login100-form-btn">
 							<div class="login100-form-bgbtn"></div>
@@ -83,7 +72,7 @@
 	</div>
 	
 
-	<div id="dropDownSelect1"></div>
+	<!-- <div id="dropDownSelect1"></div> -->
 	
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 	<script src="vendor/animsition/js/animsition.min.js"></script>

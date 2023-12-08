@@ -17,25 +17,39 @@ class Database {
         }
     }
 
-    public function insertChat()
+    public function insertChat($chatName, $addedBy)
     {
-        $this->query = "INSERT INTO chat (chatName, addedBy) values ('myChat', '1')";
+        $this->query = "INSERT INTO chat (chatName, addedBy) values ('$chatName', '$addedBy')";
         $this->result = mysqli_query($this->conn, $this->query);
         return $this->result;
     }
 
-    public function insertChatRoom($question, $answer)
+    public function fetchChat($ActiveUser)
+    {
+        $this->query = "SELECT * FROM chat WHERE addedBy='$ActiveUser' ORDER BY chatId DESC";
+        $this->result = mysqli_query($this->conn, $this->query);
+        return $this->result;
+    }
+
+    public function updateChat($question, $chatId)
+    {
+        $this->query = "UPDATE chat SET chatName='$question' WHERE chatId='$chatId'";
+        $this->result = mysqli_query($this->conn, $this->query);
+        return $this->result;
+    }
+
+    public function insertChatRoom($chatId, $question, $answer)
     {
         $question = mysqli_real_escape_string($this->conn, $question);
         $answer = mysqli_real_escape_string($this->conn, $answer);
-        $this->query = "INSERT INTO chatroom (chatId, question, answer) VALUES ('1', '$question', '$answer')";
+        $this->query = "INSERT INTO chatroom (chatId, question, answer) VALUES ('$chatId', '$question', '$answer')";
         $this->result = mysqli_query($this->conn, $this->query);
         return $this->result;
     }
 
-    public function fetchChatRoom()
+    public function fetchChatRoom($chatId)
     {
-        $this->query = "SELECT * FROM chatroom WHERE chatId='1'";
+        $this->query = "SELECT * FROM chatroom WHERE chatId='$chatId'";
         $this->result = mysqli_query($this->conn, $this->query);
         return $this->result;
     }
